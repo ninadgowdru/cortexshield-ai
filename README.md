@@ -108,8 +108,8 @@ docker run -p 3000:3000 cortexshield-ai
 📄 License
 
 MIT License
-👨‍💻 Author
 
+👨‍💻 Author
 Ninad Gowda
 GitHub | Twitter
 
