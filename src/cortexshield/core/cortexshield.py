@@ -1,12 +1,8 @@
-"""
-CortexShield - Enterprise compatible
-"""
-from ..detectors.enterprise_detector import CortexShieldEnterprise
+from ..detectors.ultra_detector import UltraDetector
 
 class CortexShield:
-    def __init__(self, sensitivity: str = "enterprise"):
-        self.shield = CortexShieldEnterprise()
-        self.sensitivity = sensitivity
+    def __init__(self, sensitivity: str = "ultra"):
+        self.shield = UltraDetector()
     
     def protect(self, prompt: str, user_id: str = "anon", model_id: str = "distilgpt2") -> dict:
         result = self.shield.analyze(prompt, user_id)
@@ -14,16 +10,14 @@ class CortexShield:
         if result["is_threat"]:
             return {
                 "blocked": True,
-                "reason": f"🚨 ENTERPRISE BLOCK: {result['risk_level']} ({result['confidence']:.1%})",
+                "reason": f"🚫 ULTRA BLOCK: {result['risk_level']} ({result['confidence']:.1%}) - {result['detected_types']} [Variants: {result['deobfuscated_variants']}]",
                 "threat_report": result,
                 "immune_score": 0.0
             }
         
-        # Mock response (add real model later)
-        response = f"✅ SAFE: {prompt[:50]}... (AI response)"
         return {
             "blocked": False,
-            "response": response,
-            "immune_score": 100.0 - (result["confidence"] * 50),
+            "response": f"✅ ULTRA SAFE: {prompt[:50]}...",
+            "immune_score": 100.0 - (result["confidence"] * 70),
             "threat_report": result
         }
